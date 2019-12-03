@@ -53,21 +53,38 @@ player_monty = Player('Monty', 'outside')
 #
 # If the user enters "q", quit the game.
 while True:
-    print(f'{player_monty.name} is currently in the room {player_monty.current_room}.')
-    print(room[player_monty.current_room])
+    print(f'{player_monty.name} is currently in the {room[player_monty.current_room].name}.')
+    print(room[player_monty.current_room].description)
 
     user_input = input('Where to?: ')
 
     if user_input == 'n':
-        pass
+        print(f'\n{player_monty.name} attempts to go north...\n')
+        if hasattr(room[player_monty.current_room], 'n_to') == True:
+            # find the key name of the matching value https://stackoverflow.com/a/13149770
+            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].n_to)]
+        else:
+            print(f'{player_monty.name} could not go that way.\n')
     elif user_input == 's':
-        pass
+        print(f'\n{player_monty.name} attempts to go south...\n')
+        if hasattr(room[player_monty.current_room], 's_to') == True:
+            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].s_to)]
+        else:
+            print(f'{player_monty.name} could not go that way.\n')
     elif user_input == 'e':
-        pass
+        print(f'\n{player_monty.name} attempts to go east...\n')
+        if hasattr(room[player_monty.current_room], 'e_to') == True:
+            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].e_to)]
+        else:
+            print(f'{player_monty.name} could not go that way.\n')
     elif user_input == 'w':
-        pass
+        print(f'\n{player_monty.name} attempts to go west...\n')
+        if hasattr(room[player_monty.current_room], 'w_to') == True:
+            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].w_to)]
+        else:
+            print(f'{player_monty.name} could not go that way.\n')
     elif user_input == 'q':
-        print('Thanks for playing!\n')
+        print('\nThanks for playing!')
         break
     else:
-        print('You shall not pass!\n')
+        print('\nYou shall not pass!\n')
