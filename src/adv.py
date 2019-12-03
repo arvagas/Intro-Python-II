@@ -1,4 +1,6 @@
+import textwrap
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -38,6 +40,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+player_monty = Player('Monty', 'outside')
 
 # Write a loop that:
 #
@@ -49,3 +52,22 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+while True:
+    print(f'{player_monty.name} is currently in the room {player_monty.current_room}.')
+    print(room[player_monty.current_room])
+
+    user_input = input('Where to?: ')
+
+    if user_input == 'n':
+        pass
+    elif user_input == 's':
+        pass
+    elif user_input == 'e':
+        pass
+    elif user_input == 'w':
+        pass
+    elif user_input == 'q':
+        print('Thanks for playing!\n')
+        break
+    else:
+        print('You shall not pass!\n')
