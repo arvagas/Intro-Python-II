@@ -103,10 +103,14 @@ def ls_check(source):
     return check
 
 while True:
+    lit_room = False
+
     # Check to see if any light source is available
     if room[adventurer.current_room].is_light == True \
         or ls_check(room[adventurer.current_room].items) == True \
         or ls_check(adventurer.items) == True:
+        # Update the variable
+        lit_room = True
         # Display where the player is
         print(f'\n{adventurer._name} is currently in the {room[adventurer.current_room]._name}.')
         # Description of room; defaults text width to 70 characters
@@ -161,12 +165,15 @@ while True:
     elif len(ui_list) == 2:
         # Take items
         if ui_list[0] in ['get', 'take']:
-            if item[ui_list[1]] in room[adventurer.current_room].items:
-                adventurer.items.append(item[ui_list[1]])
-                room[adventurer.current_room].loot_taken(item[ui_list[1]])
-                item[ui_list[1]].on_take()
+            if lit_room == True:
+                if item[ui_list[1]] in room[adventurer.current_room].items:
+                    adventurer.items.append(item[ui_list[1]])
+                    room[adventurer.current_room].loot_taken(item[ui_list[1]])
+                    item[ui_list[1]].on_take()
+                else:
+                    print('\nThat item is not available here.')
             else:
-                print('\nThat item is not available here.')
+                print('\nGood luck finding that in the dark!')
         # Drop items
         elif ui_list[0] == 'drop':
             if item[ui_list[1]] in adventurer.items:
