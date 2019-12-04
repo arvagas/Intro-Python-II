@@ -90,9 +90,9 @@ def valid_room(ui):
         new_room = getattr(room[adventurer.current_room], dir_to)
         # find the key name of the matching value https://stackoverflow.com/a/13149770
         adventurer.current_room = list(room.keys())[list(room.values()).index(new_room)]
-        # print(f'{adventurer._name} enters the {room[adventurer.current_room]._name}.')
+        # print(f'You enter the {room[adventurer.current_room]._name}.')
     else:
-        print(f'\n{adventurer._name} could not go that way.')
+        print(f'\nYou could not go that way.')
 
 # Check to see if a lightsource exists in inventory
 def ls_check(source):
@@ -112,7 +112,7 @@ while True:
         # Update the variable
         lit_room = True
         # Display where the player is
-        print(f'\n{adventurer._name} is currently in the {room[adventurer.current_room]._name}.')
+        print(f'\n{room[adventurer.current_room]._name}')
         # Description of room; defaults text width to 70 characters
         room_desc = textwrap.wrap(f'{room[adventurer.current_room]._description}')
         for i in room_desc:
@@ -124,7 +124,7 @@ while True:
             item_list = ''
             for i in room[adventurer.current_room].items:
                 item_list += f'{i} '
-            print(f'{adventurer._name} sees the following items: {item_list}')
+            print(f'You see the following items: {item_list}')
     else:
         print("\nIt's pitch black!")
 
@@ -144,23 +144,23 @@ while True:
                 direction = 'east'
             elif user_input == 'w':
                 direction = 'west'
-            print(f'\n{adventurer._name} attempts to go {direction}...')
+            print(f'\nYou attempt to go {direction}...')
             valid_room(user_input)
         # Check inventory
         elif user_input in ['i', 'inventory']:
             if adventurer.items == []:
-                print(f'\n{adventurer._name} is currently not holding anything.')
+                print('\nYou are currently not holding anything.')
             else:
                 item_list = ''
                 for i in adventurer.items:
                     item_list += f'{i} '
-                print(f'\n{adventurer._name} is currently holding: {item_list}')
+                print(f'\nYou are currently holding: {item_list}')
         # Quit game
         elif user_input in ['q', 'quit']:
             print('\nGoodbye, for now...')
             break
         else:
-            print(f'\n{adventurer._name} twiddles their thumbs in silence.')
+            print(f'\nYou twiddle your thumbs in silence.')
     # Start of two word actions
     elif len(ui_list) == 2:
         # Take items
@@ -190,6 +190,6 @@ while True:
             else:
                 print('\nThat item is no where to be found.')
         else:
-            print(f'\n{adventurer._name} twiddles their thumbs in silence.')
+            print(f'\nYou twiddle your thumbs in silence.')
     else:
-        print(f'\n{adventurer._name} twiddles their thumbs in silence.')
+        print(f'\nYou twiddle your thumbs in silence.')
