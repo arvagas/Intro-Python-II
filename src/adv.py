@@ -77,28 +77,34 @@ while True:
         print(f'{player_monty.name} sees the following items: {item_list}')
 
     user_input = input('What next?: ')
+    ui_list = user_input.split()
 
-    if user_input in ['n', 's', 'e', 'w']:
-        if user_input == 'n':
-            direction = 'north'
-        elif user_input == 's':
-            direction = 'south'
-        elif user_input == 'e':
-            direction = 'east'
-        elif user_input == 'w':
-            direction = 'west'
-        print(f'\n{player_monty.name} attempts to go {direction}...\n')
-        valid_room(user_input)
-    elif user_input in ['i', 'inventory']:
-        if player_monty.items == []:
-            print(f'\n{player_monty.name} is currently not holding anything.\n')
+    if len(ui_list) == 1:
+        if user_input in ['n', 's', 'e', 'w']:
+            if user_input == 'n':
+                direction = 'north'
+            elif user_input == 's':
+                direction = 'south'
+            elif user_input == 'e':
+                direction = 'east'
+            elif user_input == 'w':
+                direction = 'west'
+            print(f'\n{player_monty.name} attempts to go {direction}...\n')
+            valid_room(user_input)
+        elif user_input in ['i', 'inventory']:
+            if player_monty.items == []:
+                print(f'\n{player_monty.name} is currently not holding anything.\n')
+            else:
+                item_list = ''
+                for i in player_monty.items:
+                    item_list += f'{i} '
+                print(f'\n{player_monty.name} is currently holding: {item_list}\n')
+        elif user_input == 'q':
+            print('\nGoodbye, for now...')
+            break
         else:
-            item_list = ''
-            for i in player_monty.items:
-                item_list += f'{i} '
-            print(f'\n{player_monty.name} is currently holding: {item_list}\n')
-    elif user_input == 'q':
-        print('\nGoodbye, for now...')
-        break
+            print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
+    elif len(ui_list) == 2:
+        print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
     else:
         print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
