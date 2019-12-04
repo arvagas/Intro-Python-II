@@ -41,7 +41,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player_monty = Player('Monty', 'outside')
+player_monty = Player('Monty', 'outside', ['map'])
 
 # Write a loop that:
 #
@@ -76,7 +76,7 @@ while True:
             item_list += f'{i} '
         print(f'{player_monty.name} sees the following items: {item_list}')
 
-    user_input = input('Where to?: ')
+    user_input = input('What next?: ')
 
     if user_input in ['n', 's', 'e', 'w']:
         if user_input == 'n':
@@ -89,6 +89,14 @@ while True:
             direction = 'west'
         print(f'\n{player_monty.name} attempts to go {direction}...\n')
         valid_room(user_input)
+    elif user_input in ['i', 'inventory']:
+        if player_monty.items == []:
+            print(f'\n{player_monty.name} is currently not holding anything.\n')
+        else:
+            item_list = ''
+            for i in player_monty.items:
+                item_list += f'{i} '
+            print(f'\n{player_monty.name} is currently holding: {item_list}\n')
     elif user_input == 'q':
         print('\nGoodbye, for now...')
         break
