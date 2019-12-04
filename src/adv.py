@@ -82,7 +82,7 @@ adventurer = Player(an_input, 'outside', ['map'])
 # Check to see if next room is available
 def valid_room(ui):
     dir_to = f'{ui}_to'
-    if hasattr(room[adventurer.current_room], dir_to) == True:
+    if getattr(room[adventurer.current_room], dir_to) != {}:
         new_room = getattr(room[adventurer.current_room], dir_to)
         # find the key name of the matching value https://stackoverflow.com/a/13149770
         adventurer.current_room = list(room.keys())[list(room.values()).index(new_room)]

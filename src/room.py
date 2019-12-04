@@ -5,6 +5,10 @@ class Room:
         self.name = name
         self.description = description
         self.items = items
+        self.n_to = {}
+        self.s_to = {}
+        self.e_to = {}
+        self.w_to = {}
     def __str__(self):
         return (
             f'\nName: {self.name}\n'
