@@ -16,12 +16,12 @@ class Item:
         print(f'\n{self.name}: {self.description}')
 
 class Treasure(Item):
-    def __init__(self, name, description, power):
-        self.power = power
+    def __init__(self, name, description):
         super().__init__(name, description)
-    def __str__(self):
-        return (
-            f'\nName: {self.name}\n'
-            f'Description: {self.description}\n'
-            f'Power: {self.power}\n'
-        )
+
+class LightSource(Item):
+    def __init__(self, name, description):
+        super().__init__(name, description)
+    
+    def on_drop(self):
+        print(f"\nIt's not wise to drop your source of light!")
