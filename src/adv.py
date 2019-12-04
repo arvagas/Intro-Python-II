@@ -2,6 +2,7 @@ import textwrap
 from room import Room
 from player import Player
 from item import Item
+from item import Treasure
 
 # Declare all items
 item = {
@@ -13,6 +14,11 @@ item = {
                             '"Better luck next time!"'),
     'broken_glasses':   Item('broken_glasses',
                             'Looks like someone lost. Badly.'),
+}
+treasure = {
+    'ruby_ring':        Treasure('ruby_ring',
+                                'You feel slightly stronger.',
+                                '+1 Strength'),
 }
 
 # Declare all the rooms
@@ -40,7 +46,7 @@ room = {
                     f"Sadly, it has already been completely " \
                     f"emptied by earlier adventurers. The only " \
                     f"exit is to the south.",
-                    ['note', 'broken_glasses']),
+                    ['note', 'broken_glasses', 'ruby_ring']),
 }
 
 # Link rooms together
@@ -153,7 +159,8 @@ while True:
                 print('\nYou are not carrying that item.')
         # Inspect items
         elif ui_list[0] == 'inspect':
-            if ui_list[1] in adventurer.items or room[adventurer.current_room].items == True:
+            if ui_list[1] in adventurer.items or \
+                ui_list[1] in room[adventurer.current_room].items:
                 item[ui_list[1]].on_inspect()
             else:
                 print('\nThat item is no where to be found.')
