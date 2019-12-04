@@ -7,16 +7,17 @@ from item import LightSource
 
 # Declare all items
 item = {
-    'map':              Item('map',
-                            'Hopefully leads you to riches.'),
-    'note':             Item('note',
-                            '"Better luck next time!"'),
-    'broken_glasses':   Item('broken_glasses',
-                            'Looks like someone lost. Badly.'),
-    'ruby_ring':        Treasure('ruby_ring',
-                                'A beautiful red gem right in center'),
-    'lamp':             LightSource('lamp',
-                                    'Gives off a warm glow.'),
+    'map':          Item('Map',
+                        'Hopefully leads you to riches.'),
+    'note':         Item('Note',
+                        '"At least I left you something! -X"'),
+    'lockpick':     Item('Lockpick',
+                        'Someone beat me to the punch.'),
+    'ruby_ring':    Treasure('Ruby Ring',
+                            'A beautiful red gem shines ' \
+                            f'brilliantly'),
+    'lamp':         LightSource('Lamp',
+                            'Gives off a warm glow.'),
 }
 
 # Declare all the rooms
@@ -84,15 +85,15 @@ def valid_room(ui):
         new_room = getattr(room[adventurer.current_room], dir_to)
         # find the key name of the matching value https://stackoverflow.com/a/13149770
         adventurer.current_room = list(room.keys())[list(room.values()).index(new_room)]
-        print(f'{adventurer.name} enters the {room[adventurer.current_room].name}.')
+        print(f'{adventurer._name} enters the {room[adventurer.current_room]._name}.')
     else:
-        print(f'{adventurer.name} could not go that way.')
+        print(f'{adventurer._name} could not go that way.')
 
 while True:
     # Display where the player is
-    print(f'\n{adventurer.name} is currently in the {room[adventurer.current_room].name}.')
+    print(f'\n{adventurer._name} is currently in the {room[adventurer.current_room]._name}.')
     # Description of room; defaults text width to 70 characters
-    room_desc = textwrap.wrap(f'{room[adventurer.current_room].description}')
+    room_desc = textwrap.wrap(f'{room[adventurer.current_room]._description}')
     for i in room_desc:
         print(f'{i}')
     # Display items in the room, if available
@@ -102,7 +103,7 @@ while True:
         item_list = ''
         for i in room[adventurer.current_room].items:
             item_list += f'{i} '
-        print(f'{adventurer.name} sees the following items: {item_list}')
+        print(f'{adventurer._name} sees the following items: {item_list}')
 
     # Wait for user input before proceeding
     user_input = input('\nWhat next?: ')
@@ -120,23 +121,23 @@ while True:
                 direction = 'east'
             elif user_input == 'w':
                 direction = 'west'
-            print(f'\n{adventurer.name} attempts to go {direction}...\n')
+            print(f'\n{adventurer._name} attempts to go {direction}...\n')
             valid_room(user_input)
         # Check inventory
         elif user_input in ['i', 'inventory']:
             if adventurer.items == []:
-                print(f'\n{adventurer.name} is currently not holding anything.')
+                print(f'\n{adventurer._name} is currently not holding anything.')
             else:
                 item_list = ''
                 for i in adventurer.items:
                     item_list += f'{i} '
-                print(f'\n{adventurer.name} is currently holding: {item_list}')
+                print(f'\n{adventurer._name} is currently holding: {item_list}')
         # Quit game
         elif user_input in ['q', 'quit']:
             print('\nGoodbye, for now...')
             break
         else:
-            print(f'\n{adventurer.name} twiddles their thumbs in silence.')
+            print(f'\n{adventurer._name} twiddles their thumbs in silence.')
     # Start of two word actions
     elif len(ui_list) == 2:
         # Take items
@@ -163,6 +164,6 @@ while True:
             else:
                 print('\nThat item is no where to be found.')
         else:
-            print(f'\n{adventurer.name} twiddles their thumbs in silence.')
+            print(f'\n{adventurer._name} twiddles their thumbs in silence.')
     else:
-        print(f'\n{adventurer.name} twiddles their thumbs in silence.')
+        print(f'\n{adventurer._name} twiddles their thumbs in silence.')
