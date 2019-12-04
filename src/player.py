@@ -5,5 +5,9 @@ class Player:
         self.name = name
         self.current_room = current_room
         self.items = items
-    # def __str__(self):
-    #     return f'{self.name} is currently in the room {self.current_room}'
+    def __str__(self):
+        return (
+            f'\nName: {self.name}\n'
+            f'Current Room: {self.current_room}\n'
+            f'Items Holding: {self.items}\n'
+        )

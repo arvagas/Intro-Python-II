@@ -5,5 +5,9 @@ class Room:
         self.name = name
         self.description = description
         self.items = items
-    # def __str__(self):
-    #     return f'{self.name}'
+    def __str__(self):
+        return (
+            f'\nName: {self.name}\n'
+            f'Description: {self.description}\n'
+            f'Available Items: {self.items}\n'
+        )
