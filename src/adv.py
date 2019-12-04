@@ -124,6 +124,13 @@ while True:
                 item[ui_list[1]].on_take()
             else:
                 print('\nThat item is not available here.\n')
+        elif ui_list[0] == 'drop':
+            if ui_list[1] in player_monty.items:
+                player_monty.items.remove(ui_list[1])
+                room[player_monty.current_room].items.append(ui_list[1])
+                item[ui_list[1]].on_take()
+            else:
+                print('\nYou are not carrying that item.\n')
         else:
             print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
     else:
