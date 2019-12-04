@@ -3,22 +3,20 @@ from room import Room
 from player import Player
 from item import Item
 from item import Treasure
+from item import LightSource
 
 # Declare all items
 item = {
-    'lamp':             Item('lamp',
-                            'Gives off a warm glow.'),
     'map':              Item('map',
                             'Hopefully leads you to riches.'),
     'note':             Item('note',
                             '"Better luck next time!"'),
     'broken_glasses':   Item('broken_glasses',
                             'Looks like someone lost. Badly.'),
-}
-treasure = {
     'ruby_ring':        Treasure('ruby_ring',
-                                'You feel slightly stronger.',
-                                '+1 Strength'),
+                                'A beautiful red gem right in center'),
+    'lamp':             LightSource('lamp',
+                                    'Gives off a warm glow.'),
 }
 
 # Declare all the rooms
@@ -154,7 +152,7 @@ while True:
             if ui_list[1] in adventurer.items:
                 adventurer.items.remove(ui_list[1])
                 room[adventurer.current_room].items.append(ui_list[1])
-                item[ui_list[1]].on_take()
+                item[ui_list[1]].on_drop()
             else:
                 print('\nYou are not carrying that item.')
         # Inspect items
