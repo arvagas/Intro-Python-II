@@ -53,8 +53,8 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-brave_adventurer_name = input('\nWhat is your name, brave adventurer?: ')
-brave_adventurer = Player(brave_adventurer_name, 'outside', ['map'])
+an_input = input('\nWhat is your name, adventurer?: ')
+adventurer = Player(an_input, 'outside', ['map'])
 
 # Write a loop that:
 #
@@ -69,30 +69,32 @@ brave_adventurer = Player(brave_adventurer_name, 'outside', ['map'])
 
 def valid_room(ui):
     dir_to = f'{ui}_to'
-    if hasattr(room[brave_adventurer.current_room], dir_to) == True:
-        new_room = getattr(room[brave_adventurer.current_room], dir_to)
+    if hasattr(room[adventurer.current_room], dir_to) == True:
+        new_room = getattr(room[adventurer.current_room], dir_to)
         # find the key name of the matching value https://stackoverflow.com/a/13149770
-        brave_adventurer.current_room = list(room.keys())[list(room.values()).index(new_room)]
-        print(f'{brave_adventurer.name} enters the {room[brave_adventurer.current_room].name}.')
+        adventurer.current_room = list(room.keys())[list(room.values()).index(new_room)]
+        print(f'{adventurer.name} enters the {room[adventurer.current_room].name}.')
     else:
-        print(f'{brave_adventurer.name} could not go that way.')
+        print(f'{adventurer.name} could not go that way.')
 
 while True:
-    print(f'\n{brave_adventurer.name} is currently in the {room[brave_adventurer.current_room].name}.')
-    print(room[brave_adventurer.current_room].description)
+    print(f'\n{adventurer.name} is currently in the {room[adventurer.current_room].name}.')
+    print(room[adventurer.current_room].description)
 
-    if room[brave_adventurer.current_room].items == []:
+    if room[adventurer.current_room].items == []:
         print('There are no items to be found.')
     else:
         item_list = ''
-        for i in room[brave_adventurer.current_room].items:
+        for i in room[adventurer.current_room].items:
             item_list += f'{i} '
-        print(f'{brave_adventurer.name} sees the following items: {item_list}')
+        print(f'{adventurer.name} sees the following items: {item_list}')
 
     user_input = input('\nWhat next?: ')
     ui_list = user_input.split()
 
+    # Start of one word actions
     if len(ui_list) == 1:
+        # Move in a direction
         if user_input in ['n', 's', 'e', 'w']:
             if user_input == 'n':
                 direction = 'north'
@@ -102,37 +104,48 @@ while True:
                 direction = 'east'
             elif user_input == 'w':
                 direction = 'west'
-            print(f'\n{brave_adventurer.name} attempts to go {direction}...\n')
+            print(f'\n{adventurer.name} attempts to go {direction}...\n')
             valid_room(user_input)
+        # Check inventory
         elif user_input in ['i', 'inventory']:
-            if brave_adventurer.items == []:
-                print(f'\n{brave_adventurer.name} is currently not holding anything.')
+            if adventurer.items == []:
+                print(f'\n{adventurer.name} is currently not holding anything.')
             else:
                 item_list = ''
-                for i in brave_adventurer.items:
+                for i in adventurer.items:
                     item_list += f'{i} '
-                print(f'\n{brave_adventurer.name} is currently holding: {item_list}')
+                print(f'\n{adventurer.name} is currently holding: {item_list}')
+        # Quit game
         elif user_input in ['q', 'quit']:
             print('\nGoodbye, for now...')
             break
         else:
-            print(f'\n{brave_adventurer.name} twiddles their thumbs in silence.')
+            print(f'\n{adventurer.name} twiddles their thumbs in silence.')
+    # Start of two word actions
     elif len(ui_list) == 2:
+        # Take items
         if ui_list[0] in ['get', 'take']:
-            if ui_list[1] in room[brave_adventurer.current_room].items:
-                brave_adventurer.items.append(ui_list[1])
-                room[brave_adventurer.current_room].items.remove(ui_list[1])
+            if ui_list[1] in room[adventurer.current_room].items:
+                adventurer.items.append(ui_list[1])
+                room[adventurer.current_room].items.remove(ui_list[1])
                 item[ui_list[1]].on_take()
             else:
                 print('\nThat item is not available here.')
+        # Drop items
         elif ui_list[0] == 'drop':
-            if ui_list[1] in brave_adventurer.items:
-                brave_adventurer.items.remove(ui_list[1])
-                room[brave_adventurer.current_room].items.append(ui_list[1])
+            if ui_list[1] in adventurer.items:
+                adventurer.items.remove(ui_list[1])
+                room[adventurer.current_room].items.append(ui_list[1])
                 item[ui_list[1]].on_take()
             else:
                 print('\nYou are not carrying that item.')
+        # Inspect items
+        elif ui_list[0] == 'inspect':
+            if ui_list[1] in adventurer.items or room[adventurer.current_room].items == True:
+                item[ui_list[1]].on_inspect()
+            else:
+                print('\nThat item is no where to be found.')
         else:
-            print(f'\n{brave_adventurer.name} twiddles their thumbs in silence.')
+            print(f'\n{adventurer.name} twiddles their thumbs in silence.')
     else:
-        print(f'\n{brave_adventurer.name} twiddles their thumbs in silence.')
+        print(f'\n{adventurer.name} twiddles their thumbs in silence.')
