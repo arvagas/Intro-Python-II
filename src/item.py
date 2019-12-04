@@ -3,10 +3,11 @@ class Item:
         self._name = name
         self._description = description
     def __str__(self):
-        return (
-            f'\nName: {self._name}\n'
-            f'Description: {self._description}\n'
-        )
+        return f'{self._name}'
+        # return (
+        #     f'\nName: {self._name}\n'
+        #     f'Description: {self._description}\n'
+        # )
 
     def on_take(self):
         print(f'\nYou have picked up {self._name}.')
