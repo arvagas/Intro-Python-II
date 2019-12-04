@@ -13,4 +13,4 @@ class Item:
     def on_drop(self):
         print(f'\nYou have dropped {self.name}.')
     def on_inspect(self):
-        print(f'\n{self.name}: {self.description}.')
+        print(f'\n{self.name}: {self.description}')

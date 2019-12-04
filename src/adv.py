@@ -16,25 +16,31 @@ item = {
 }
 
 # Declare all the rooms
-
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons",
-                     ['lamp']),
+                    "North of you, the cave mount beckons.",
+                    ['lamp']),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+    'foyer':    Room("Foyer",
+                    "Dim light filters in from the south. " \
+                    f"Dusty passages run north and east."),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+    'overlook': Room("Grand Overlook",
+                    "A steep cliff appears before you, falling " \
+                    f"into the darkness. Ahead to the north, a " \
+                    f"light flickers in the distance, but there " \
+                    f"is no way across the chasm."),
 
-    'narrow':   Room("Narrow Passage","""The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+    'narrow':   Room("Narrow Passage",
+                    "The narrow passage bends here from west to " \
+                    f"north. The smell of gold permeates the air."),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""", ['note', 'broken_glasses']),
+    'treasure': Room("Treasure Chamber",
+                    "You've found the long-lost treasure chamber! " \
+                    f"Sadly, it has already been completely " \
+                    f"emptied by earlier adventurers. The only " \
+                    f"exit is to the south.",
+                    ['note', 'broken_glasses']),
 }
 
 # Link rooms together
@@ -67,6 +73,7 @@ adventurer = Player(an_input, 'outside', ['map'])
 #
 # If the user enters "q", quit the game.
 
+# Check to see if next room is available
 def valid_room(ui):
     dir_to = f'{ui}_to'
     if hasattr(room[adventurer.current_room], dir_to) == True:
@@ -78,9 +85,13 @@ def valid_room(ui):
         print(f'{adventurer.name} could not go that way.')
 
 while True:
+    # Display where the player is
     print(f'\n{adventurer.name} is currently in the {room[adventurer.current_room].name}.')
-    print(room[adventurer.current_room].description)
-
+    # Description of room; defaults text width to 70 characters
+    room_desc = textwrap.wrap(f'{room[adventurer.current_room].description}')
+    for i in room_desc:
+        print(f'{i}')
+    # Display items in the room, if available
     if room[adventurer.current_room].items == []:
         print('There are no items to be found.')
     else:
@@ -89,6 +100,7 @@ while True:
             item_list += f'{i} '
         print(f'{adventurer.name} sees the following items: {item_list}')
 
+    # Wait for user input before proceeding
     user_input = input('\nWhat next?: ')
     ui_list = user_input.split()
 
