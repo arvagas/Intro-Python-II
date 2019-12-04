@@ -52,39 +52,37 @@ player_monty = Player('Monty', 'outside')
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+def valid_room(ui):
+    dir_to = f'{ui}_to'
+    if hasattr(room[player_monty.current_room], dir_to) == True:
+        new_room = getattr(room[player_monty.current_room], dir_to)
+        # find the key name of the matching value https://stackoverflow.com/a/13149770
+        player_monty.current_room = list(room.keys())[list(room.values()).index(new_room)]
+        print(f'{player_monty.name} enters the {room[player_monty.current_room].name}.\n')
+    else:
+        print(f'{player_monty.name} could not go that way.\n')
+
+
 while True:
     print(f'{player_monty.name} is currently in the {room[player_monty.current_room].name}.')
     print(room[player_monty.current_room].description)
 
     user_input = input('Where to?: ')
 
-    if user_input == 'n':
-        print(f'\n{player_monty.name} attempts to go north...\n')
-        if hasattr(room[player_monty.current_room], 'n_to') == True:
-            # find the key name of the matching value https://stackoverflow.com/a/13149770
-            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].n_to)]
-        else:
-            print(f'{player_monty.name} could not go that way.\n')
-    elif user_input == 's':
-        print(f'\n{player_monty.name} attempts to go south...\n')
-        if hasattr(room[player_monty.current_room], 's_to') == True:
-            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].s_to)]
-        else:
-            print(f'{player_monty.name} could not go that way.\n')
-    elif user_input == 'e':
-        print(f'\n{player_monty.name} attempts to go east...\n')
-        if hasattr(room[player_monty.current_room], 'e_to') == True:
-            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].e_to)]
-        else:
-            print(f'{player_monty.name} could not go that way.\n')
-    elif user_input == 'w':
-        print(f'\n{player_monty.name} attempts to go west...\n')
-        if hasattr(room[player_monty.current_room], 'w_to') == True:
-            player_monty.current_room = list(room.keys())[list(room.values()).index(room[player_monty.current_room].w_to)]
-        else:
-            print(f'{player_monty.name} could not go that way.\n')
+    if user_input in ['n', 's', 'e', 'w']:
+        if user_input == 'n':
+            direction = 'north'
+        elif user_input == 's':
+            direction = 'south'
+        elif user_input == 'e':
+            direction = 'east'
+        elif user_input == 'w':
+            direction = 'west'
+        print(f'\n{player_monty.name} attempts to go {direction}...\n')
+        valid_room(user_input)
     elif user_input == 'q':
-        print('\nThanks for playing!')
+        print('\nGoodbye, for now...')
         break
     else:
-        print('\nYou shall not pass!\n')
+        print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
