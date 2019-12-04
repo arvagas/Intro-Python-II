@@ -1,6 +1,19 @@
 import textwrap
 from room import Room
 from player import Player
+from item import Item
+
+# Declare all items
+item = {
+    'lamp':             Item('lamp',
+                            'Gives off a warm glow.'),
+    'map':              Item('map',
+                            'Hopefully leads you to riches.'),
+    'note':             Item('note',
+                            '"Better luck next time!"'),
+    'broken_glasses':   Item('broken_glasses',
+                            'Looks like someone lost. Badly.'),
+}
 
 # Declare all the rooms
 
@@ -16,14 +29,13 @@ passages run north and east.""", []),
 into the darkness. Ahead to the north, a light flickers in
 the distance, but there is no way across the chasm.""", []),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""", ['lamp']),
+    'narrow':   Room("Narrow Passage","""The narrow passage bends here from west
+to north. The smell of gold permeates the air.""", []),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""", ['lamp', 'note', 'broken_glasses']),
+earlier adventurers. The only exit is to the south.""", ['note', 'broken_glasses']),
 }
-
 
 # Link rooms together
 
@@ -99,12 +111,20 @@ while True:
                 for i in player_monty.items:
                     item_list += f'{i} '
                 print(f'\n{player_monty.name} is currently holding: {item_list}\n')
-        elif user_input == 'q':
+        elif user_input in ['q', 'quit']:
             print('\nGoodbye, for now...')
             break
         else:
             print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
     elif len(ui_list) == 2:
-        print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
+        if ui_list[0] in ['get', 'take']:
+            if ui_list[1] in room[player_monty.current_room].items:
+                player_monty.items.append(ui_list[1])
+                room[player_monty.current_room].items.remove(ui_list[1])
+                item[ui_list[1]].on_take()
+            else:
+                print('\nThat item is not available here.\n')
+        else:
+            print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
     else:
         print(f'\n{player_monty.name} twiddles their thumbs in silence.\n')
