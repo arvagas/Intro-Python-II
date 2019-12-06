@@ -1,3 +1,6 @@
+# module imports from addons
+from colorama import Fore
+
 class Item:
     def __init__(self, name, description):
         self._name = name
@@ -10,11 +13,12 @@ class Item:
         # )
 
     def on_take(self):
-        print(f'\nYou have picked up {self._name}.')
+        print(Fore.GREEN + f'\nYou have picked up {self._name}.')
     def on_drop(self):
-        print(f'\nYou have dropped {self._name}.')
+        print(Fore.GREEN + f'\nYou have dropped {self._name}.')
     def on_inspect(self):
-        print(f'\n{self._name}: {self._description}')
+        print(Fore.GREEN + f'\nYou inspect the {self._name}.')
+        print(f'\n{Fore.CYAN + self._name}: {Fore.WHITE + self._description}')
 
 class Treasure(Item):
     def __init__(self, name, description):
@@ -25,4 +29,4 @@ class LightSource(Item):
         super().__init__(name, description)
     
     def on_drop(self):
-        print(f"\nIt's not wise to drop your source of light!")
+        print(Fore.GREEN + f"\nIt's not wise to drop your source of light!")

@@ -1,4 +1,8 @@
+# module imports
 import textwrap
+# module imports from addons
+from colorama import Fore
+# class imports
 from room import Room
 from player import Player
 from item import Item
@@ -92,7 +96,7 @@ def valid_room(ui):
         adventurer.current_room = list(room.keys())[list(room.values()).index(new_room)]
         # print(f'You enter the {room[adventurer.current_room]._name}.')
     else:
-        print(f'\nYou could not go that way.')
+        print(Fore.RED + '\nYou could not go that way.')
 
 # Check to see if a lightsource exists in inventory
 def ls_check(source):
@@ -112,24 +116,24 @@ while True:
         # Update the variable
         lit_room = True
         # Display where the player is
-        print(f'\n{room[adventurer.current_room]._name}')
+        print(Fore.CYAN + f'\n{room[adventurer.current_room]._name}')
         # Description of room; defaults text width to 70 characters
         room_desc = textwrap.wrap(f'{room[adventurer.current_room]._description}')
         for i in room_desc:
-            print(f'{i}')
+            print(Fore.WHITE + f'{i}')
         # Display items in the room, if available
         if room[adventurer.current_room].items == []:
-            print('There are no items to be found.')
+            print(Fore.RED + 'There are no items to be found.')
         else:
             item_list = ''
             for i in room[adventurer.current_room].items:
                 item_list += f'{i} '
-            print(f'You see the following items: {item_list}')
+            print(f'You see the following items: {Fore.YELLOW + item_list}')
     else:
-        print("\nIt's pitch black!")
+        print(Fore.WHITE + "\nIt's pitch black!")
 
     # Wait for user input before proceeding
-    user_input = input('\nWhat next?: ')
+    user_input = input(Fore.WHITE + '\nWhat do you do next?: ')
     ui_list = user_input.split()
 
     # Start of one word actions
@@ -144,23 +148,23 @@ while True:
                 direction = 'east'
             elif user_input == 'w':
                 direction = 'west'
-            print(f'\nYou attempt to go {direction}...')
+            print(Fore.GREEN + f'\nYou attempt to go {direction}...')
             valid_room(user_input)
         # Check inventory
         elif user_input in ['i', 'inventory']:
             if adventurer.items == []:
-                print('\nYou are currently not holding anything.')
+                print(Fore.RED + '\nYou are currently not holding anything.')
             else:
                 item_list = ''
                 for i in adventurer.items:
                     item_list += f'{i} '
-                print(f'\nYou are currently holding: {item_list}')
+                print(Fore.GREEN + f'\nYou are currently holding: {item_list}')
         # Quit game
         elif user_input in ['q', 'quit']:
-            print('\nGoodbye, for now...')
+            print(Fore.GREEN + '\nGoodbye, for now...')
             break
         else:
-            print(f'\nYou twiddle your thumbs in silence.')
+            print(Fore.RED + '\nYou twiddle your thumbs in silence.')
     # Start of two word actions
     elif len(ui_list) == 2:
         # Take items
@@ -171,9 +175,9 @@ while True:
                     room[adventurer.current_room].loot_taken(item[ui_list[1]])
                     item[ui_list[1]].on_take()
                 else:
-                    print('\nThat item is not available here.')
+                    print(Fore.RED + '\nThat item is not available here.')
             else:
-                print('\nGood luck finding that in the dark!')
+                print(Fore.GREEN + '\nGood luck finding that in the dark!')
         # Drop items
         elif ui_list[0] == 'drop':
             if item[ui_list[1]] in adventurer.items:
@@ -181,15 +185,15 @@ while True:
                 room[adventurer.current_room].loot_dropped(item[ui_list[1]])
                 item[ui_list[1]].on_drop()
             else:
-                print('\nYou are not carrying that item.')
+                print(Fore.RED + '\nYou are not carrying that item.')
         # Inspect items
         elif ui_list[0] == 'inspect':
             if item[ui_list[1]] in adventurer.items \
                 or item[ui_list[1]] in room[adventurer.current_room].items:
                 item[ui_list[1]].on_inspect()
             else:
-                print('\nThat item is no where to be found.')
+                print(Fore.RED + '\nThat item is no where to be found.')
         else:
-            print(f'\nYou twiddle your thumbs in silence.')
+            print(Fore.RED + '\nYou twiddle your thumbs in silence.')
     else:
-        print(f'\nYou twiddle your thumbs in silence.')
+        print(Fore.RED + '\nYou twiddle your thumbs in silence.')
